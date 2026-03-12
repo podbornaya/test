@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tilda Patterns — каталог кастомных блоков</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container">
+        <p class="tag">Каталог кастомных блоков для Tilda</p>
+        <h1>Tilda Patterns</h1>
+        <p class="subtitle">
+          Небольшая библиотека готовых HTML/CSS/JS-блоков для вставки в Tilda через
+          блок <strong>T123</strong>.
+        </p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="catalog">
+        <article class="card">
+          <div class="card-head">
+            <h2>Бегущая строка</h2>
+            <span class="pill">Block #001</span>
+          </div>
+          <p>
+            Генерирует код бегущей строки для Tilda с настройками текста, цвета,
+            скорости и режима шрифта.
+          </p>
+
+          <div class="editor-grid">
+            <form id="settings-form" class="controls" autocomplete="off">
+              <label>
+                Текст бегущей строки
+                <textarea id="marquee-text" rows="4">🔥 Новая коллекция уже на сайте • Доставка по всему миру • Скидка 15% до конца недели 🔥</textarea>
+              </label>
+
+              <label>
+                Цвет текста
+                <input id="text-color" type="color" value="#ffffff" />
+              </label>
+
+              <label>
+                Цвет фона
+                <input id="bg-color" type="color" value="#111111" />
+              </label>
+
+              <label>
+                Скорость анимации (сек)
+                <input id="speed" type="range" min="8" max="60" step="1" value="22" />
+                <output id="speed-output">22</output>
+              </label>
+
+              <label class="checkbox-label">
+                <input id="use-inherit-font" type="checkbox" checked />
+                Использовать шрифт темы Tilda (inherit)
+              </label>
+
+              <button id="copy-btn" type="button">Скопировать код блока</button>
+            </form>
+
+            <div class="preview-panel">
+              <h3>Превью</h3>
+              <div id="preview-marquee" class="marquee">
+                <div class="marquee-track">
+                  <span class="marquee-text"></span>
+                  <span class="marquee-text" aria-hidden="true"></span>
+                </div>
+              </div>
+
+              <h3>Код для Tilda (T123)</h3>
+              <pre><code id="code-output"></code></pre>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
