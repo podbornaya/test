@@ -55,8 +55,8 @@ button{border:0;border-radius:10px;padding:11px 14px;background:var(--primary);c
 .preview-panel{min-width:0}.preview-panel h3{margin:0 0 8px}
 .preview-frame,.code-frame{width:100%;background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .preview-frame{margin-bottom:14px}
-.marquee{overflow:hidden;width:100%}.marquee-track{display:flex;gap:40px;width:max-content;white-space:nowrap;animation:scroll 22s linear infinite}.marquee-text{display:inline-flex;align-items:center;padding:14px 0;font-size:22px;font-weight:600}
-@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(calc(-1 * (var(--tp-marquee-span, 300px) + 40px)))}}
+.marquee{overflow:hidden;width:100%}.marquee-track{display:flex;gap:var(--tp-marquee-gap,30px);width:max-content;white-space:nowrap;animation:scroll 22s linear infinite;will-change:transform}.marquee-text{display:inline-flex;align-items:center;padding:14px 0;font-size:22px;font-weight:600}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(calc(-1 * (var(--tp-marquee-span, 300px) + var(--tp-marquee-gap,30px))))}}
 
 .form-preview{background:#d9cef5;display:grid;grid-template-columns:minmax(240px,1fr) minmax(360px,1fr)}
 .form-left{padding:28px}.form-left h4{margin:0;font-size:clamp(34px,2.5vw,56px);line-height:1.04;letter-spacing:-.02em}

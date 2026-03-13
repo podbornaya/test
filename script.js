@@ -6,8 +6,8 @@ function showPage(pageId) { pages.forEach((p) => p.classList.toggle('active', p.
 
 const marqueeUi = {
   text: document.getElementById('marquee-text'), textColor: document.getElementById('marquee-text-color'), bgColor: document.getElementById('marquee-bg-color'),
-  speed: document.getElementById('marquee-speed'), speedOutput: document.getElementById('marquee-speed-output'),
-  previewMarquee: document.getElementById('preview-marquee'), previewTrack: document.querySelector('#preview-marquee .marquee-track'), previewTexts: document.querySelectorAll('#preview-marquee .marquee-text'),
+  speed: document.getElementById('marquee-speed'), speedOutput: document.getElementById('marquee-speed-output'), fontFamily: document.getElementById('marquee-font-family'),
+  previewMarquee: document.getElementById('preview-marquee'), previewTrack: document.querySelector('#preview-marquee .marquee-track'),
   codeOutput: document.getElementById('marquee-code-output'), copyBtn: document.getElementById('copy-marquee-btn'),
 };
 
@@ -86,17 +86,81 @@ function fieldHtml(f, val) {
   return `<label>${f.l}<input type="${f.t}" data-field="${f.k}" value="${escapeHtml(val || '')}"/></label>`;
 }
 
-function getMarqueeDurationSeconds(singleTextWidth, speedControl) {
-  const pixelsPerSecond = 220 - speedControl * 3;
-  return Math.max(2.5, singleTextWidth / Math.max(40, pixelsPerSecond));
+const MARQUEE_GAP = 30;
+
+function getMarqueePixelsPerSecond(speedControl) {
+  return 40 + speedControl * 4;
 }
 
-function getMarqueeSnippet(c){return `<!-- Tilda custom block: marquee -->\n<style>\n.tp-marquee{overflow:hidden;width:100%;background:${c.bgColor}}.tp-marquee__track{display:flex;gap:40px;width:max-content;white-space:nowrap;animation:tpMarqueeScroll 12s linear infinite}.tp-marquee__text{display:inline-flex;align-items:center;padding:12px 0;font-size:22px;line-height:1.25;font-weight:600;color:${c.textColor};font-family:inherit}@keyframes tpMarqueeScroll{from{transform:translateX(0)}to{transform:translateX(calc(-1 * (var(--tp-marquee-span, 300px) + 40px)))}}\n</style>\n<div class="tp-marquee"><div class="tp-marquee__track"><span class="tp-marquee__text">${escapeHtml(c.text)}</span><span class="tp-marquee__text" aria-hidden="true">${escapeHtml(c.text)}</span></div></div>\n<script>\n(function(){\n  var root=document.currentScript.previousElementSibling;\n  if(!root) return;\n  var track=root.querySelector('.tp-marquee__track');\n  var first=root.querySelector('.tp-marquee__text');\n  if(!track||!first) return;\n  var width=Math.ceil(first.getBoundingClientRect().width);\n  var pixelsPerSecond=220-${c.speed}*3;\n  var duration=Math.max(2.5,width/Math.max(40,pixelsPerSecond));\n  track.style.setProperty('--tp-marquee-span', width+'px');\n  track.style.animationDuration=duration+'s';\n})();\n<\/script>`;}
+function getMarqueeDurationSeconds(singleTextWidth, speedControl) {
+  return Math.max(2, singleTextWidth / getMarqueePixelsPerSecond(speedControl));
+}
 
-function refreshMarquee(){const c={text:marqueeUi.text.value.trim()||'Текст бегущей строки',textColor:marqueeUi.textColor.value,bgColor:marqueeUi.bgColor.value,speed:Number(marqueeUi.speed.value)};marqueeUi.speedOutput.value=String(c.speed);marqueeUi.previewMarquee.style.background=c.bgColor;marqueeUi.previewTexts.forEach((i)=>{i.textContent=c.text;i.style.color=c.textColor;});
-const first=marqueeUi.previewTexts[0];
-const width=Math.ceil(first.getBoundingClientRect().width);
+function fillMarqueeTrack(track, text, className, minTotalWidth) {
+  track.innerHTML = '';
+  const first = document.createElement('span');
+  first.className = className;
+  first.textContent = text;
+  track.appendChild(first);
+
+  const singleWidth = Math.ceil(first.getBoundingClientRect().width);
+  const step = singleWidth + MARQUEE_GAP;
+  const repeats = Math.max(2, Math.ceil(minTotalWidth / Math.max(step, 1)) + 1);
+
+  for (let i = 1; i < repeats; i += 1) {
+    const clone = first.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
+  }
+
+  return singleWidth;
+}
+
+function getMarqueeSnippet(c){return `<!-- Tilda custom block: marquee -->
+<style>
+.tp-marquee{overflow:hidden;width:100%;background:${c.bgColor}}.tp-marquee__track{display:flex;gap:var(--tp-marquee-gap,${MARQUEE_GAP}px);width:max-content;white-space:nowrap;animation:tpMarqueeScroll 12s linear infinite;will-change:transform}.tp-marquee__text{display:inline-flex;align-items:center;padding:12px 0;font-size:22px;line-height:1.25;font-weight:600;color:${c.textColor};font-family:inherit}@keyframes tpMarqueeScroll{from{transform:translateX(0)}to{transform:translateX(calc(-1 * (var(--tp-marquee-span, 300px) + var(--tp-marquee-gap,${MARQUEE_GAP}px))))}}
+</style>
+<div class="tp-marquee"><div class="tp-marquee__track"></div></div>
+<script>
+(function(){
+  var root=document.currentScript.previousElementSibling;
+  if(!root) return;
+  root.style.fontFamily=${JSON.stringify(c.fontFamily)};
+  var track=root.querySelector('.tp-marquee__track');
+  if(!track) return;
+  var text=${JSON.stringify(c.text)};
+  var gap=${MARQUEE_GAP};
+  var pps=${getMarqueePixelsPerSecond(c.speed)};
+  var createItem=function(hidden){
+    var span=document.createElement('span');
+    span.className='tp-marquee__text';
+    span.textContent=text;
+    if(hidden) span.setAttribute('aria-hidden','true');
+    return span;
+  };
+  var render=function(){
+    track.innerHTML='';
+    var first=createItem(false);
+    track.appendChild(first);
+    var width=Math.ceil(first.getBoundingClientRect().width);
+    var step=width+gap;
+    var minWidth=root.offsetWidth*2;
+    var repeats=Math.max(2,Math.ceil(minWidth/Math.max(step,1))+1);
+    for(var i=1;i<repeats;i+=1){track.appendChild(createItem(true));}
+    track.style.setProperty('--tp-marquee-gap', gap+'px');
+    track.style.setProperty('--tp-marquee-span', width+'px');
+    track.style.animationDuration=Math.max(2,width/pps)+'s';
+  };
+  render();
+  window.addEventListener('resize', render);
+})();
+<\/script>`;}
+
+function refreshMarquee(){const c={text:marqueeUi.text.value.trim()||'Текст бегущей строки',textColor:marqueeUi.textColor.value,bgColor:marqueeUi.bgColor.value,speed:Number(marqueeUi.speed.value),fontFamily:marqueeUi.fontFamily.value.trim()||'TTNorms, Arial, sans-serif'};marqueeUi.speedOutput.value=String(c.speed);marqueeUi.previewMarquee.style.background=c.bgColor;marqueeUi.previewMarquee.style.fontFamily=c.fontFamily;
+const width=fillMarqueeTrack(marqueeUi.previewTrack, c.text, 'marquee-text', marqueeUi.previewMarquee.offsetWidth * 2);
+marqueeUi.previewTrack.querySelectorAll('.marquee-text').forEach((i)=>{i.style.color=c.textColor;});
 const duration=getMarqueeDurationSeconds(width,c.speed);
+marqueeUi.previewTrack.style.setProperty('--tp-marquee-gap', `${MARQUEE_GAP}px`);
 marqueeUi.previewTrack.style.setProperty('--tp-marquee-span', `${width}px`);
 marqueeUi.previewTrack.style.animationDuration=`${duration}s`;
 marqueeUi.codeOutput.textContent=getMarqueeSnippet(c)}
@@ -204,7 +268,8 @@ formUi.variant.addEventListener('input', refreshFormWithRender);
 formUi.previewTab1Name.addEventListener('click', () => { formUi.previewTab1Name.classList.add('active'); formUi.previewTab2Name.classList.remove('active'); updatePreviewFromState(); });
 formUi.previewTab2Name.addEventListener('click', () => { formUi.previewTab2Name.classList.add('active'); formUi.previewTab1Name.classList.remove('active'); updatePreviewFromState(); });
 
-[marqueeUi.text, marqueeUi.textColor, marqueeUi.bgColor, marqueeUi.speed].forEach((n)=> n.addEventListener('input', refreshMarquee));
+[marqueeUi.text, marqueeUi.textColor, marqueeUi.bgColor, marqueeUi.speed, marqueeUi.fontFamily].forEach((n)=> n.addEventListener('input', refreshMarquee));
+window.addEventListener('resize', refreshMarquee);
 marqueeUi.copyBtn.addEventListener('click', ()=> copyToClipboard(marqueeUi.copyBtn, marqueeUi.codeOutput));
 formUi.copyBtn.addEventListener('click', ()=> copyToClipboard(formUi.copyBtn, formUi.codeOutput));
 
