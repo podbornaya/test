@@ -27,6 +27,7 @@
               <span class="pill">Block #001</span>
               <h3>Бегущая строка</h3>
             </div>
+            <div class="gallery-mini gallery-mini-marquee">Бегущая строка • Бегущая строка • Бегущая строка •</div>
             <p>Настройка текста, цвета, скорости анимации и шрифта.</p>
             <button type="button" data-open-page="marquee-page">Открыть настройки</button>
           </article>
@@ -36,9 +37,11 @@
               <span class="pill">Block #002</span>
               <h3>Форма Tochka</h3>
             </div>
-            <p>
-              Генератор блока с UniversalForm: фон, аналитика и две вкладки с кнопками.
-            </p>
+            <div class="gallery-mini gallery-mini-form">
+              <div class="mini-tabs"><span>Я не клиент</span><span>Я уже клиент</span></div>
+              <div class="mini-form-body">Создайте собственный сайт с витриной товаров и услуг</div>
+            </div>
+            <p>Генератор UniversalForm + готовые вариации из шаблонов.</p>
             <button type="button" data-open-page="form-page">Открыть настройки</button>
           </article>
         </div>
@@ -62,12 +65,18 @@
 
               <label>
                 Цвет текста
-                <input id="marquee-text-color" type="color" value="#ffffff" />
+                <div class="color-row">
+                  <div class="brand-palette" data-target="marquee-text-color"></div>
+                  <input id="marquee-text-color" type="color" value="#ffffff" />
+                </div>
               </label>
 
               <label>
                 Цвет фона
-                <input id="marquee-bg-color" type="color" value="#111111" />
+                <div class="color-row">
+                  <div class="brand-palette" data-target="marquee-bg-color"></div>
+                  <input id="marquee-bg-color" type="color" value="#111111" />
+                </div>
               </label>
 
               <label>
@@ -109,13 +118,29 @@
             <h2>Форма Tochka (UniversalForm)</h2>
             <span class="pill">Block #002</span>
           </div>
-          <p>Настройка блока формы и генерация готового скрипта для вставки в Tilda.</p>
+          <p>Настройка блока формы + быстрый выбор готовых вариаций.</p>
 
           <div class="editor-grid">
             <form class="controls" autocomplete="off">
               <label>
+                Вариация формы
+                <select id="form-variant">
+                  <option value="custom">Кастомная (редактор)</option>
+                  <option value="two-tabs-two-buttons">Два таба, две кнопки</option>
+                  <option value="two-tabs-input-button">Два таба, инпут + кнопка</option>
+                  <option value="terminal-offer">Нужен счёт / Я уже клиент (терминал)</option>
+                  <option value="no-tabs-all-fields">Без табов, все поля</option>
+                  <option value="no-tabs-name-phone">Без табов, номер + имя</option>
+                  <option value="redirect-success">Редирект на свою страницу успеха</option>
+                </select>
+              </label>
+
+              <label>
                 Цвет фона формы
-                <input id="form-bg-color" type="color" value="#E7DBFD" />
+                <div class="color-row">
+                  <div class="brand-palette" data-target="form-bg-color"></div>
+                  <input id="form-bg-color" type="color" value="#E7DBFD" />
+                </div>
               </label>
 
               <label class="checkbox-label">
@@ -123,57 +148,23 @@
                 Добавить событие analytics (dataLayer)
               </label>
 
-              <h4>Вкладка 1</h4>
-              <label>
-                Tab name
-                <input id="tab1-name" type="text" value="Я не клиент" />
-              </label>
-              <label>
-                Заголовок
-                <textarea id="tab1-title" rows="3">Создайте собственный сайт с&nbsp;витриной товаров и&nbsp;услуг</textarea>
-              </label>
-              <label>
-                Описание
-                <textarea id="tab1-description" rows="3">Зарегистрируйтесь и&nbsp;создайте интернет-магазин — для&nbsp;этого не&nbsp;обязательно иметь счёт в&nbsp;Точка Банке</textarea>
-              </label>
-              <label>
-                Текст кнопки
-                <input id="tab1-button-text" type="text" value="Зарегистрироваться" />
-              </label>
-              <label>
-                Ссылка кнопки
-                <input id="tab1-button-href" type="url" value="https://store.tochka.com/api/v1/auth/oauth/start?extra=eyAiYWN0aW9uIjogInJlZyIgfQ&application=store" />
-              </label>
-              <label class="checkbox-label">
-                <input id="tab1-button-blank" type="checkbox" checked />
-                Открывать в новом окне
-              </label>
+              <div id="custom-form-controls">
+                <h4>Вкладка 1</h4>
+                <label>Tab name <input id="tab1-name" type="text" value="Я не клиент" /></label>
+                <label>Заголовок <textarea id="tab1-title" rows="3">Создайте собственный сайт с&nbsp;витриной товаров и&nbsp;услуг</textarea></label>
+                <label>Описание <textarea id="tab1-description" rows="3">Зарегистрируйтесь и&nbsp;создайте интернет-магазин — для&nbsp;этого не&nbsp;обязательно иметь счёт в&nbsp;Точка Банке</textarea></label>
+                <label>Текст кнопки <input id="tab1-button-text" type="text" value="Зарегистрироваться" /></label>
+                <label>Ссылка кнопки <input id="tab1-button-href" type="url" value="https://store.tochka.com/api/v1/auth/oauth/start?extra=eyAiYWN0aW9uIjogInJlZyIgfQ&application=store" /></label>
+                <label class="checkbox-label"><input id="tab1-button-blank" type="checkbox" checked /> Открывать в новом окне</label>
 
-              <h4>Вкладка 2</h4>
-              <label>
-                Tab name
-                <input id="tab2-name" type="text" value="Я уже клиент" />
-              </label>
-              <label>
-                Заголовок
-                <textarea id="tab2-title" rows="3">Создайте собственный сайт с&nbsp;витриной товаров и&nbsp;услуг</textarea>
-              </label>
-              <label>
-                Описание
-                <textarea id="tab2-description" rows="3">Перейдите по&nbsp;ссылке и&nbsp;создайте собственный интернет-магазин</textarea>
-              </label>
-              <label>
-                Текст кнопки
-                <input id="tab2-button-text" type="text" value="Создать магазин" />
-              </label>
-              <label>
-                Ссылка кнопки
-                <input id="tab2-button-href" type="url" value="https://store.tochka.com/" />
-              </label>
-              <label class="checkbox-label">
-                <input id="tab2-button-blank" type="checkbox" checked />
-                Открывать в новом окне
-              </label>
+                <h4>Вкладка 2</h4>
+                <label>Tab name <input id="tab2-name" type="text" value="Я уже клиент" /></label>
+                <label>Заголовок <textarea id="tab2-title" rows="3">Создайте собственный сайт с&nbsp;витриной товаров и&nbsp;услуг</textarea></label>
+                <label>Описание <textarea id="tab2-description" rows="3">Перейдите по&nbsp;ссылке и&nbsp;создайте собственный интернет-магазин</textarea></label>
+                <label>Текст кнопки <input id="tab2-button-text" type="text" value="Создать магазин" /></label>
+                <label>Ссылка кнопки <input id="tab2-button-href" type="url" value="https://store.tochka.com/" /></label>
+                <label class="checkbox-label"><input id="tab2-button-blank" type="checkbox" checked /> Открывать в новом окне</label>
+              </div>
 
               <button id="copy-form-btn" type="button">Скопировать код блока</button>
             </form>
@@ -182,9 +173,7 @@
               <h3>Превью</h3>
               <div class="preview-frame">
                 <div id="form-preview" class="form-preview">
-                  <div class="form-left">
-                    <h4 id="preview-title"></h4>
-                  </div>
+                  <div class="form-left"><h4 id="preview-title"></h4></div>
                   <div class="form-right">
                     <div class="form-tabs">
                       <button class="form-tab active" type="button" id="preview-tab1-name"></button>
