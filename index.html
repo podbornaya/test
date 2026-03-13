@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tilda Patterns — каталог кастомных блоков</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container">
+        <p class="tag">Каталог кастомных блоков для Tilda</p>
+        <h1>Tilda Patterns</h1>
+        <p class="subtitle">
+          Разводящая страница с галереей кастомных блоков и детальными генераторами кода
+          для вставки в Tilda через <strong>T123</strong>.
+        </p>
+      </div>
+    </header>
+
+    <main class="container page-root" id="page-root">
+      <section id="gallery-page" class="page active">
+        <h2>Галерея блоков</h2>
+        <div class="gallery-grid">
+          <article class="gallery-card">
+            <div class="gallery-top">
+              <span class="pill">Block #001</span>
+              <h3>Бегущая строка</h3>
+            </div>
+            <p>Настройка текста, цвета, скорости анимации и шрифта.</p>
+            <button type="button" data-open-page="marquee-page">Открыть настройки</button>
+          </article>
+
+          <article class="gallery-card">
+            <div class="gallery-top">
+              <span class="pill">Block #002</span>
+              <h3>Форма Tochka</h3>
+            </div>
+            <p>
+              Генератор блока с UniversalForm: фон, аналитика и две вкладки с кнопками.
+            </p>
+            <button type="button" data-open-page="form-page">Открыть настройки</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="marquee-page" class="page detail-page">
+        <button class="back-link" type="button" data-open-page="gallery-page">← Назад в галерею</button>
+        <article class="card">
+          <div class="card-head">
+            <h2>Бегущая строка</h2>
+            <span class="pill">Block #001</span>
+          </div>
+          <p>Детальная настройка блока бегущей строки.</p>
+
+          <div class="editor-grid">
+            <form class="controls" autocomplete="off">
+              <label>
+                Текст бегущей строки
+                <textarea id="marquee-text" rows="4">🔥 Новая коллекция уже на сайте • Доставка по всему миру • Скидка 15% до конца недели 🔥</textarea>
+              </label>
+
+              <label>
+                Цвет текста
+                <input id="marquee-text-color" type="color" value="#ffffff" />
+              </label>
+
+              <label>
+                Цвет фона
+                <input id="marquee-bg-color" type="color" value="#111111" />
+              </label>
+
+              <label>
+                Скорость анимации (сек)
+                <input id="marquee-speed" type="range" min="8" max="60" step="1" value="22" />
+                <output id="marquee-speed-output">22</output>
+              </label>
+
+              <label class="checkbox-label">
+                <input id="marquee-inherit-font" type="checkbox" checked />
+                Использовать шрифт темы Tilda (inherit)
+              </label>
+
+              <button id="copy-marquee-btn" type="button">Скопировать код блока</button>
+            </form>
+
+            <div class="preview-panel">
+              <h3>Превью</h3>
+              <div id="preview-marquee" class="marquee">
+                <div class="marquee-track">
+                  <span class="marquee-text"></span>
+                  <span class="marquee-text" aria-hidden="true"></span>
+                </div>
+              </div>
+
+              <h3>Код для Tilda (T123)</h3>
+              <pre><code id="marquee-code-output"></code></pre>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section id="form-page" class="page detail-page">
+        <button class="back-link" type="button" data-open-page="gallery-page">← Назад в галерею</button>
+        <article class="card">
+          <div class="card-head">
+            <h2>Форма Tochka (UniversalForm)</h2>
+            <span class="pill">Block #002</span>
+          </div>
+          <p>Настройка блока формы и генерация готового скрипта для вставки в Tilda.</p>
+
+          <div class="editor-grid">
+            <form class="controls" autocomplete="off">
+              <label>
+                Цвет фона формы
+                <input id="form-bg-color" type="color" value="#E7DBFD" />
+              </label>
+
+              <label class="checkbox-label">
+                <input id="form-analytics" type="checkbox" checked />
+                Добавить событие analytics (dataLayer)
+              </label>
+
+              <h4>Вкладка 1</h4>
+              <label>
+                Tab name
+                <input id="tab1-name" type="text" value="Я не клиент" />
+              </label>
+              <label>
+                Заголовок
+                <textarea id="tab1-title" rows="3">Создайте собственный сайт с&nbsp;витриной товаров и&nbsp;услуг</textarea>
+              </label>
+              <label>
+                Описание
+                <textarea id="tab1-description" rows="3">Зарегистрируйтесь и&nbsp;создайте интернет-магазин — для&nbsp;этого не&nbsp;обязательно иметь счёт в&nbsp;Точка Банке</textarea>
+              </label>
+              <label>
+                Текст кнопки
+                <input id="tab1-button-text" type="text" value="Зарегистрироваться" />
+              </label>
+              <label>
+                Ссылка кнопки
+                <input id="tab1-button-href" type="url" value="https://store.tochka.com/api/v1/auth/oauth/start?extra=eyAiYWN0aW9uIjogInJlZyIgfQ&application=store" />
+              </label>
+              <label class="checkbox-label">
+                <input id="tab1-button-blank" type="checkbox" checked />
+                Открывать в новом окне
+              </label>
+
+              <h4>Вкладка 2</h4>
+              <label>
+                Tab name
+                <input id="tab2-name" type="text" value="Я уже клиент" />
+              </label>
+              <label>
+                Заголовок
+                <textarea id="tab2-title" rows="3">Создайте собственный сайт с&nbsp;витриной товаров и&nbsp;услуг</textarea>
+              </label>
+              <label>
+                Описание
+                <textarea id="tab2-description" rows="3">Перейдите по&nbsp;ссылке и&nbsp;создайте собственный интернет-магазин</textarea>
+              </label>
+              <label>
+                Текст кнопки
+                <input id="tab2-button-text" type="text" value="Создать магазин" />
+              </label>
+              <label>
+                Ссылка кнопки
+                <input id="tab2-button-href" type="url" value="https://store.tochka.com/" />
+              </label>
+              <label class="checkbox-label">
+                <input id="tab2-button-blank" type="checkbox" checked />
+                Открывать в новом окне
+              </label>
+
+              <button id="copy-form-btn" type="button">Скопировать код блока</button>
+            </form>
+
+            <div class="preview-panel">
+              <h3>Превью</h3>
+              <div id="form-preview" class="form-preview">
+                <div class="form-tabs">
+                  <button class="form-tab active" type="button" id="preview-tab1-name"></button>
+                  <button class="form-tab" type="button" id="preview-tab2-name"></button>
+                </div>
+                <div class="form-body">
+                  <h4 id="preview-title"></h4>
+                  <p id="preview-description"></p>
+                  <a id="preview-button" class="preview-button" href="#" target="_blank" rel="noopener noreferrer"></a>
+                </div>
+              </div>
+
+              <h3>Код для Tilda (T123)</h3>
+              <pre><code id="form-code-output"></code></pre>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
