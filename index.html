@@ -101,11 +101,21 @@
             <div class="preview-panel">
               <h3>Превью</h3>
               <div class="preview-frame">
-                <div id="form-preview" class="form-preview">
-                  <div class="form-left"><h4 id="preview-title"></h4></div>
-                  <div class="form-right">
-                    <div class="form-tabs" id="preview-tabs"><button class="form-tab active" type="button" id="preview-tab1-name"></button><button class="form-tab" type="button" id="preview-tab2-name"></button></div>
-                    <div class="form-body"><p id="preview-description"></p><a id="preview-button" class="preview-button" href="#" target="_blank" rel="noopener noreferrer"></a></div>
+                <div id="form-preview-viewport" class="form-preview-viewport">
+                  <div id="form-preview-stage" class="form-preview-stage">
+                    <div id="form-preview" class="form-preview">
+                      <div class="form-left"><h4 id="preview-title"></h4><p id="preview-subtitle" class="form-subtitle"></p></div>
+                      <div class="form-right">
+                        <div class="form-tabs" id="preview-tabs"><button class="form-tab active" type="button" id="preview-tab1-name"></button><button class="form-tab" type="button" id="preview-tab2-name"></button></div>
+                        <div class="form-body">
+                          <p id="preview-description"></p>
+                          <div id="preview-inputs" class="preview-inputs"></div>
+                          <a id="preview-button" class="preview-button" href="#" target="_blank" rel="noopener noreferrer"></a>
+                          <label id="preview-agreement" class="preview-agreement"><input type="checkbox" disabled /> Соглашаюсь на получение рекламы</label>
+                          <p id="preview-disclaimer" class="preview-disclaimer">Оставляя заявку, вы соглашаетесь на <u>обработку персональных данных</u></p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

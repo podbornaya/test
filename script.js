@@ -14,9 +14,13 @@ const marqueeUi = {
 const formUi = {
   variant: document.getElementById('form-variant'), bgColor: document.getElementById('form-bg-color'), referer1: document.getElementById('form-referer1'),
   settingsRoot: document.getElementById('preset-settings'),
+  previewViewport: document.getElementById('form-preview-viewport'), previewStage: document.getElementById('form-preview-stage'),
   preview: document.getElementById('form-preview'), previewTabs: document.getElementById('preview-tabs'),
   previewTab1Name: document.getElementById('preview-tab1-name'), previewTab2Name: document.getElementById('preview-tab2-name'),
-  previewTitle: document.getElementById('preview-title'), previewDescription: document.getElementById('preview-description'), previewButton: document.getElementById('preview-button'),
+  previewTitle: document.getElementById('preview-title'), previewSubtitle: document.getElementById('preview-subtitle'),
+  previewDescription: document.getElementById('preview-description'), previewInputs: document.getElementById('preview-inputs'),
+  previewButton: document.getElementById('preview-button'), previewAgreement: document.getElementById('preview-agreement'),
+  previewDisclaimer: document.getElementById('preview-disclaimer'),
   codeOutput: document.getElementById('form-code-output'), copyBtn: document.getElementById('copy-form-btn'),
 };
 
@@ -233,31 +237,114 @@ function getFormCode() {
   return '';
 }
 
+
+const FORM_PREVIEW_BASE_WIDTH = 1200;
+
+function syncFormPreviewScale() {
+  const viewportWidth = formUi.previewViewport.clientWidth;
+  if (!viewportWidth) return;
+  const scale = Math.min(1, viewportWidth / FORM_PREVIEW_BASE_WIDTH);
+  formUi.previewStage.style.transform = `scale(${scale})`;
+  formUi.previewViewport.style.height = `${Math.ceil(formUi.preview.offsetHeight * scale)}px`;
+}
+
+function getPreviewInputs(s, fallbackNames = []) {
+  const baseInput = { placeholder: 'Контактный телефон' };
+  const fromJson = asJson(s.inputsJson, []);
+  const normalized = Array.isArray(fromJson)
+    ? fromJson.map((item) => ({ placeholder: item.placeholder || item.name || 'Поле' }))
+    : [];
+
+  if (!normalized.length) {
+    return [baseInput, ...fallbackNames.map((name) => ({ placeholder: name }))];
+  }
+
+  return [baseInput, ...normalized];
+}
+
+function renderPreviewInputs(inputs) {
+  formUi.previewInputs.innerHTML = '';
+  inputs.forEach((item) => {
+    const input = document.createElement('input');
+    input.className = 'preview-input';
+    input.type = 'text';
+    input.placeholder = item.placeholder;
+    input.disabled = true;
+    formUi.previewInputs.appendChild(input);
+  });
+}
+
 function updatePreviewFromState() {
   const k = formUi.variant.value; const s = presetState[k];
   formUi.preview.style.background = formUi.bgColor.value;
   const hasTabs = ['two-tabs-two-buttons','two-tabs-input-button','terminal-offer'].includes(k);
   formUi.previewTabs.style.display = hasTabs ? 'grid' : 'none';
+  formUi.previewSubtitle.style.display = 'block';
+  formUi.previewAgreement.style.display = 'none';
+  formUi.previewDisclaimer.style.display = 'block';
+
   if (hasTabs) {
     formUi.previewTab1Name.textContent = s.tab1Name || 'Таб 1';
     formUi.previewTab2Name.textContent = s.tab2Name || 'Таб 2';
     const firstActive = !formUi.previewTab2Name.classList.contains('active');
-    const tabTitle = firstActive ? (s.tab1Title || s.title) : (s.tab2Title || s.title);
-    const tabDesc = firstActive ? (s.tab1Description || s.description) : (s.tab2Description || s.description);
+    const tabTitle = firstActive ? (s.tab1Title || s.title || '') : (s.tab2Title || s.title || '');
+    const tabSubtitle = firstActive ? (s.subtitle || '') : (s.tab2Subtitle || '');
+    const tabDesc = firstActive ? (s.tab1Description || s.description || '') : (s.tab2Description || s.description || '');
     const tabBtn = firstActive ? (s.tab1ButtonText || s.buttonText || 'Оставить заявку') : (s.tab2ButtonText || 'Открыть');
     formUi.previewTitle.innerHTML = tabTitle || 'Заголовок формы';
+    formUi.previewSubtitle.innerHTML = tabSubtitle;
+    formUi.previewSubtitle.style.display = tabSubtitle ? 'block' : 'none';
     formUi.previewDescription.innerHTML = tabDesc || 'Описание формы';
     formUi.previewButton.textContent = tabBtn;
+    formUi.previewButton.href = firstActive ? (s.tab1Href || '#') : (s.tab2Href || '#');
+    const showInputs = k !== 'two-tabs-two-buttons' && firstActive;
+    renderPreviewInputs(showInputs ? getPreviewInputs(s) : []);
+
+    if (k === 'two-tabs-input-button' && firstActive) {
+      formUi.previewAgreement.style.display = 'flex';
+    }
+    if (k === 'terminal-offer') {
+      formUi.previewDisclaimer.textContent = 'Оставляя заявку, вы соглашаетесь на обработку персональных данных';
+    }
   } else {
     formUi.previewTitle.innerHTML = s.title || 'Заголовок формы';
+    formUi.previewSubtitle.innerHTML = s.subtitle || '';
+    formUi.previewSubtitle.style.display = s.subtitle ? 'block' : 'none';
     formUi.previewDescription.innerHTML = s.description || 'Описание формы';
     formUi.previewButton.textContent = s.buttonText || 'Оставить заявку';
+    formUi.previewButton.href = '#';
+
+    if (k === 'no-tabs-name-phone') {
+      renderPreviewInputs(getPreviewInputs(s, ['Имя']));
+    } else if (k === 'no-tabs-all-fields' || k === 'redirect-success') {
+      renderPreviewInputs(getPreviewInputs(s));
+      formUi.previewAgreement.style.display = 'flex';
+    } else {
+      renderPreviewInputs([]);
+    }
+
+    if (k === 'redirect-success') {
+      formUi.previewTitle.textContent = s.resultTitle || 'Заявка в работе!';
+      formUi.previewSubtitle.style.display = 'none';
+      formUi.previewDescription.textContent = s.resultSubtitle || 'Уже создаём ваш промокод и скоро пришлём его в чат интернет-банка.';
+      formUi.previewInputs.innerHTML = '';
+      formUi.previewButton.textContent = 'Редирект после отправки';
+      formUi.previewAgreement.style.display = 'none';
+      formUi.previewDisclaimer.style.display = 'none';
+    } else {
+      formUi.previewDisclaimer.textContent = 'Оставляя заявку, вы соглашаетесь на обработку персональных данных';
+    }
   }
 }
 
-function refreshFormView() { updatePreviewFromState(); formUi.codeOutput.textContent = getFormCode(); }
+function refreshFormView() { updatePreviewFromState(); syncFormPreviewScale(); formUi.codeOutput.textContent = getFormCode(); }
 
-function refreshFormWithRender() { renderPresetSettings(); refreshFormView(); }
+function refreshFormWithRender() {
+  formUi.previewTab1Name.classList.add('active');
+  formUi.previewTab2Name.classList.remove('active');
+  renderPresetSettings();
+  refreshFormView();
+}
 
 function copyToClipboard(button, node) {
   const txt = button.textContent;
@@ -271,7 +358,7 @@ formUi.previewTab1Name.addEventListener('click', () => { formUi.previewTab1Name.
 formUi.previewTab2Name.addEventListener('click', () => { formUi.previewTab2Name.classList.add('active'); formUi.previewTab1Name.classList.remove('active'); updatePreviewFromState(); });
 
 [marqueeUi.text, marqueeUi.textColor, marqueeUi.bgColor, marqueeUi.speed, marqueeUi.fontWeight].forEach((n)=> n.addEventListener('input', refreshMarquee));
-window.addEventListener('resize', refreshMarquee);
+window.addEventListener('resize', () => { refreshMarquee(); syncFormPreviewScale(); });
 marqueeUi.copyBtn.addEventListener('click', ()=> copyToClipboard(marqueeUi.copyBtn, marqueeUi.codeOutput));
 formUi.copyBtn.addEventListener('click', ()=> copyToClipboard(formUi.copyBtn, formUi.codeOutput));
 
