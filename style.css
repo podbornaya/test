@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'TT Norms Tochka';
-  src: local('TT Norms Tochka Medium'), local('TT Norms Tochka-Medium'), url('./fonts/TTNormsTochka-Medium.woff2') format('woff2');
+  src: url('./TT Norms Tochka Extended Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'TT Norms Tochka';
-  src: local('TT Norms Tochka Demibold'), local('TT Norms Tochka-Demibold'), url('./fonts/TTNormsTochka-Demibold.woff2') format('woff2');
+  src: url('./TT Norms Tochka Extended DemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
