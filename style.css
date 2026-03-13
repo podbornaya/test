@@ -6,9 +6,7 @@
   --primary: #3b82f6;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -17,14 +15,8 @@ body {
   background: var(--bg);
 }
 
-.container {
-  width: min(1120px, 92vw);
-  margin: 0 auto;
-}
-
-.hero {
-  padding: 64px 0 36px;
-}
+.container { width: min(1120px, 92vw); margin: 0 auto; }
+.hero { padding: 64px 0 36px; }
 
 .tag {
   display: inline-block;
@@ -37,24 +29,11 @@ body {
   margin: 0 0 12px;
 }
 
-h1 {
-  font-size: clamp(30px, 5vw, 48px);
-  margin: 0;
-}
+h1 { font-size: clamp(30px, 5vw, 48px); margin: 0; }
+.subtitle { max-width: 740px; font-size: 18px; line-height: 1.5; }
 
-.subtitle {
-  max-width: 740px;
-  font-size: 18px;
-  line-height: 1.5;
-}
-
-.page {
-  display: none;
-}
-
-.page.active {
-  display: block;
-}
+.page { display: none; }
+.page.active { display: block; }
 
 .gallery-grid {
   margin: 18px 0 50px;
@@ -71,9 +50,7 @@ h1 {
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
 }
 
-.gallery-top h3 {
-  margin: 8px 0 6px;
-}
+.gallery-top h3 { margin: 8px 0 6px; }
 
 .pill {
   border-radius: 999px;
@@ -103,63 +80,29 @@ h1 {
   margin-bottom: 50px;
 }
 
-.card-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: center;
-}
+.card-head { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
 
 .editor-grid {
   margin-top: 18px;
   display: grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 340px minmax(0, 1fr);
   gap: 18px;
 }
 
-.controls {
-  display: grid;
-  gap: 12px;
-  align-content: start;
-}
+.controls { display: grid; gap: 12px; align-content: start; }
+label { font-size: 14px; font-weight: 600; display: grid; gap: 6px; }
+h4 { margin: 8px 0 0; }
 
-label {
-  font-size: 14px;
-  font-weight: 600;
-  display: grid;
-  gap: 6px;
-}
+input, textarea, button, output { font: inherit; }
+input[type='text'], input[type='url'], textarea, input[type='range'] { width: 100%; }
 
-h4 {
-  margin: 8px 0 0;
-}
-
-input,
-textarea,
-button,
-output {
-  font: inherit;
-}
-
-input[type='text'],
-input[type='url'],
-textarea,
-input[type='range'] {
-  width: 100%;
-}
-
-input[type='text'],
-input[type='url'],
-textarea {
+input[type='text'], input[type='url'], textarea {
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 10px;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 88px;
-}
+textarea { resize: vertical; min-height: 88px; }
 
 input[type='color'] {
   width: 52px;
@@ -170,10 +113,7 @@ input[type='color'] {
   padding: 2px;
 }
 
-output {
-  font-weight: 700;
-  color: #334155;
-}
+output { font-weight: 700; color: #334155; }
 
 .checkbox-label {
   grid-template-columns: 20px 1fr;
@@ -190,29 +130,29 @@ button {
   font-weight: 700;
   cursor: pointer;
 }
+button:hover { filter: brightness(0.96); }
 
-button:hover {
-  filter: brightness(0.96);
-}
+.preview-panel { min-width: 0; }
+.preview-panel h3 { margin: 0 0 8px; }
 
-.preview-panel h3 {
-  margin: 0 0 8px;
-}
-
-.marquee {
-  overflow: hidden;
+.preview-frame,
+.code-frame {
   width: 100%;
-  border-radius: 10px;
-  margin-bottom: 14px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
+.preview-frame { margin-bottom: 14px; }
+
+.marquee { overflow: hidden; width: 100%; }
 .marquee-track {
   display: flex;
   width: max-content;
   white-space: nowrap;
   animation: scroll 22s linear infinite;
 }
-
 .marquee-text {
   display: inline-flex;
   align-items: center;
@@ -222,81 +162,105 @@ button:hover {
 }
 
 @keyframes scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 .form-preview {
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  margin-bottom: 14px;
-  overflow: hidden;
+  background: #d9cef5;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(360px, 1fr);
+}
+
+.form-left { padding: 30px 30px 26px; }
+
+.form-left h4 {
+  margin: 0;
+  font-size: clamp(34px, 2.5vw, 56px);
+  line-height: 1.04;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.form-right {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-content: start;
+  padding: 20px 20px 20px 0;
+  min-width: 0;
 }
 
 .form-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border-bottom: 1px solid var(--border);
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .form-tab {
   border-radius: 0;
-  background: #fff;
+  background: transparent;
   color: #111827;
-  border-right: 1px solid var(--border);
+  font-weight: 500;
 }
 
-.form-tab:last-child {
-  border-right: 0;
-}
+.form-tab.active { background: #111827; color: #fff; }
 
-.form-tab.active {
-  background: #eef2ff;
-}
-
-.form-body {
-  padding: 18px;
-}
-
-.form-body h4 {
-  margin: 0 0 8px;
-  font-size: 22px;
-}
+.form-body { padding: 18px 4px 0; min-width: 0; }
 
 .form-body p {
-  margin: 0 0 12px;
-  line-height: 1.45;
+  margin: 0 0 14px;
+  line-height: 1.35;
+  font-size: 21px;
+  max-width: 100%;
 }
 
 .preview-button {
   display: inline-block;
   text-decoration: none;
-  padding: 10px 14px;
-  border-radius: 9px;
+  padding: 14px 18px;
+  border-radius: 12px;
   font-weight: 700;
   background: #111827;
   color: #fff;
+  min-width: 250px;
+  text-align: center;
 }
 
 pre {
   margin: 0;
   background: #0b1020;
   color: #dae4ff;
-  border-radius: 10px;
   padding: 14px;
   max-height: 480px;
   overflow: auto;
   font-size: 13px;
   line-height: 1.45;
+  white-space: pre;
+}
+
+@media (max-width: 1100px) {
+  .form-preview {
+    transform: scale(0.9);
+    transform-origin: top left;
+    width: 111%;
+  }
 }
 
 @media (max-width: 920px) {
   .gallery-grid,
-  .editor-grid {
+  .editor-grid { grid-template-columns: 1fr; }
+
+  .form-preview {
+    width: 100%;
+    transform: none;
     grid-template-columns: 1fr;
   }
+
+  .form-right { padding: 0 16px 18px; }
+  .form-left { padding: 20px 16px 10px; }
+  .form-body p { font-size: 18px; }
+  .preview-button { min-width: 0; width: 100%; }
 }

@@ -86,15 +86,17 @@
 
             <div class="preview-panel">
               <h3>Превью</h3>
-              <div id="preview-marquee" class="marquee">
-                <div class="marquee-track">
-                  <span class="marquee-text"></span>
-                  <span class="marquee-text" aria-hidden="true"></span>
+              <div class="preview-frame">
+                <div id="preview-marquee" class="marquee">
+                  <div class="marquee-track">
+                    <span class="marquee-text"></span>
+                    <span class="marquee-text" aria-hidden="true"></span>
+                  </div>
                 </div>
               </div>
 
               <h3>Код для Tilda (T123)</h3>
-              <pre><code id="marquee-code-output"></code></pre>
+              <div class="code-frame"><pre><code id="marquee-code-output"></code></pre></div>
             </div>
           </div>
         </article>
@@ -178,20 +180,26 @@
 
             <div class="preview-panel">
               <h3>Превью</h3>
-              <div id="form-preview" class="form-preview">
-                <div class="form-tabs">
-                  <button class="form-tab active" type="button" id="preview-tab1-name"></button>
-                  <button class="form-tab" type="button" id="preview-tab2-name"></button>
-                </div>
-                <div class="form-body">
-                  <h4 id="preview-title"></h4>
-                  <p id="preview-description"></p>
-                  <a id="preview-button" class="preview-button" href="#" target="_blank" rel="noopener noreferrer"></a>
+              <div class="preview-frame">
+                <div id="form-preview" class="form-preview">
+                  <div class="form-left">
+                    <h4 id="preview-title"></h4>
+                  </div>
+                  <div class="form-right">
+                    <div class="form-tabs">
+                      <button class="form-tab active" type="button" id="preview-tab1-name"></button>
+                      <button class="form-tab" type="button" id="preview-tab2-name"></button>
+                    </div>
+                    <div class="form-body">
+                      <p id="preview-description"></p>
+                      <a id="preview-button" class="preview-button" href="#" target="_blank" rel="noopener noreferrer"></a>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <h3>Код для Tilda (T123)</h3>
-              <pre><code id="form-code-output"></code></pre>
+              <div class="code-frame"><pre><code id="form-code-output"></code></pre></div>
             </div>
           </div>
         </article>
