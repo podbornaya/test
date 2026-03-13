@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tilda Patterns — каталог кастомных блоков</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container">
+        <p class="tag">Каталог кастомных блоков для Tilda</p>
+        <h1>Tilda Patterns</h1>
+        <p class="subtitle">Разводящая страница с галереей кастомных блоков и детальными генераторами кода для вставки в Tilda через <strong>T123</strong>.</p>
+      </div>
+    </header>
+
+    <main class="container page-root" id="page-root">
+      <section id="gallery-page" class="page active">
+        <h2>Галерея блоков</h2>
+        <div class="gallery-grid">
+          <article class="gallery-card">
+            <div class="gallery-preview-wrap"><img class="gallery-preview" src="./previews/block-001.jpg" alt="Превью блока бегущей строки" /></div>
+            <div class="gallery-content">
+              <span class="pill">Block #001</span>
+              <h3>Бегущая строка</h3>
+              <p>Настройка текста, цвета, скорости анимации и шрифта.</p>
+            </div>
+            <button class="arrow-btn" type="button" data-open-page="marquee-page" aria-label="Открыть блок бегущей строки">→</button>
+          </article>
+
+          <article class="gallery-card">
+            <div class="gallery-preview-wrap"><img class="gallery-preview" src="./previews/block-002.jpg" alt="Превью блока формы" /></div>
+            <div class="gallery-content">
+              <span class="pill">Block #002</span>
+              <h3>Форма Tochka</h3>
+              <p>Генератор UniversalForm + вариации с индивидуальными настройками.</p>
+            </div>
+            <button class="arrow-btn" type="button" data-open-page="form-page" aria-label="Открыть блок формы">→</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="marquee-page" class="page detail-page">
+        <button class="back-link" type="button" data-open-page="gallery-page">← Назад в галерею</button>
+        <article class="card">
+          <div class="card-head"><h2>Бегущая строка</h2><span class="pill">Block #001</span></div>
+          <p>Детальная настройка блока бегущей строки.</p>
+          <div class="editor-grid">
+            <form class="controls" autocomplete="off">
+              <label>Текст бегущей строки <textarea id="marquee-text" rows="4">🔥 Новая коллекция уже на сайте • Доставка по всему миру • Скидка 15% до конца недели 🔥</textarea></label>
+              <label>Цвет текста <div class="color-row"><div class="brand-palette" data-target="marquee-text-color"></div><input id="marquee-text-color" type="color" value="#ffffff" /></div></label>
+              <label>Цвет фона <div class="color-row"><div class="brand-palette" data-target="marquee-bg-color"></div><input id="marquee-bg-color" type="color" value="#111111" /></div></label>
+              <label>Скорость анимации (сек)<input id="marquee-speed" type="range" min="8" max="60" step="1" value="22" /><output id="marquee-speed-output">22</output></label>
+                            <button id="copy-marquee-btn" type="button">Скопировать код блока</button>
+            </form>
+
+            <div class="preview-panel">
+              <h3>Превью</h3>
+              <div class="preview-frame"><div id="preview-marquee" class="marquee"><div class="marquee-track"><span class="marquee-text"></span><span class="marquee-text" aria-hidden="true"></span></div></div></div>
+              <h3>Код для Tilda (T123)</h3>
+              <div class="code-frame"><pre><code id="marquee-code-output"></code></pre></div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section id="form-page" class="page detail-page">
+        <button class="back-link" type="button" data-open-page="gallery-page">← Назад в галерею</button>
+        <article class="card">
+          <div class="card-head"><h2>Форма Tochka (UniversalForm)</h2><span class="pill">Block #002</span></div>
+          <p>Каждый пресет настраивается индивидуально по своим параметрам.</p>
+
+          <div class="editor-grid">
+            <form class="controls" autocomplete="off" id="form-controls">
+              <label>
+                Вариация формы
+                <select id="form-variant">
+                  <option value="two-tabs-two-buttons">Два таба, две кнопки</option>
+                  <option value="two-tabs-input-button">Два таба, инпут + кнопка</option>
+                  <option value="terminal-offer">Нужен счёт / Я уже клиент (терминал)</option>
+                  <option value="no-tabs-all-fields">Без табов, все поля</option>
+                  <option value="no-tabs-name-phone">Без табов, номер + имя</option>
+                  <option value="redirect-success">Редирект на свою страницу успеха</option>
+                </select>
+              </label>
+
+              <label>
+                Цвет фона формы
+                <div class="color-row"><div class="brand-palette" data-target="form-bg-color"></div><input id="form-bg-color" type="color" value="#E7DBFD" /></div>
+              </label>
+
+                            <label>referer1 (для партнёров, необязательно) <input id="form-referer1" type="text" placeholder="строка для рефера партнёра" /></label>
+
+              <div id="preset-settings" class="preset-settings"></div>
+
+              <button id="copy-form-btn" type="button">Скопировать код блока</button>
+            </form>
+
+            <div class="preview-panel">
+              <h3>Превью</h3>
+              <div class="preview-frame">
+                <div id="form-preview" class="form-preview">
+                  <div class="form-left"><h4 id="preview-title"></h4></div>
+                  <div class="form-right">
+                    <div class="form-tabs" id="preview-tabs"><button class="form-tab active" type="button" id="preview-tab1-name"></button><button class="form-tab" type="button" id="preview-tab2-name"></button></div>
+                    <div class="form-body"><p id="preview-description"></p><a id="preview-button" class="preview-button" href="#" target="_blank" rel="noopener noreferrer"></a></div>
+                  </div>
+                </div>
+              </div>
+              <h3>Код для Tilda (T123)</h3>
+              <div class="code-frame"><pre><code id="form-code-output"></code></pre></div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
