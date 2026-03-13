@@ -86,9 +86,20 @@ function fieldHtml(f, val) {
   return `<label>${f.l}<input type="${f.t}" data-field="${f.k}" value="${escapeHtml(val || '')}"/></label>`;
 }
 
-function getMarqueeSnippet(c){return `<!-- Tilda custom block: marquee -->\n<style>\n.tp-marquee{overflow:hidden;width:100%;background:${c.bgColor}}.tp-marquee__track{display:flex;gap:40px;width:max-content;white-space:nowrap;animation:tpMarqueeScroll ${c.speed}s linear infinite}.tp-marquee__text{display:inline-flex;align-items:center;padding:12px 0;font-size:22px;line-height:1.25;font-weight:600;color:${c.textColor};font-family:inherit}@keyframes tpMarqueeScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}\n</style>\n<div class="tp-marquee"><div class="tp-marquee__track"><span class="tp-marquee__text">${escapeHtml(c.text)}</span><span class="tp-marquee__text" aria-hidden="true">${escapeHtml(c.text)}</span></div></div>`;}
+function getMarqueeDurationSeconds(singleTextWidth, speedControl) {
+  const pixelsPerSecond = 220 - speedControl * 3;
+  return Math.max(2.5, singleTextWidth / Math.max(40, pixelsPerSecond));
+}
 
-function refreshMarquee(){const c={text:marqueeUi.text.value.trim()||'Текст бегущей строки',textColor:marqueeUi.textColor.value,bgColor:marqueeUi.bgColor.value,speed:Number(marqueeUi.speed.value)};marqueeUi.speedOutput.value=String(c.speed);marqueeUi.previewMarquee.style.background=c.bgColor;marqueeUi.previewTrack.style.animationDuration=`${c.speed}s`;marqueeUi.previewTexts.forEach((i)=>{i.textContent=c.text;i.style.color=c.textColor;});marqueeUi.codeOutput.textContent=getMarqueeSnippet(c)}
+function getMarqueeSnippet(c){return `<!-- Tilda custom block: marquee -->\n<style>\n.tp-marquee{overflow:hidden;width:100%;background:${c.bgColor}}.tp-marquee__track{display:flex;gap:40px;width:max-content;white-space:nowrap;animation:tpMarqueeScroll 12s linear infinite}.tp-marquee__text{display:inline-flex;align-items:center;padding:12px 0;font-size:22px;line-height:1.25;font-weight:600;color:${c.textColor};font-family:inherit}@keyframes tpMarqueeScroll{from{transform:translateX(0)}to{transform:translateX(calc(-1 * (var(--tp-marquee-span, 300px) + 40px)))}}\n</style>\n<div class="tp-marquee"><div class="tp-marquee__track"><span class="tp-marquee__text">${escapeHtml(c.text)}</span><span class="tp-marquee__text" aria-hidden="true">${escapeHtml(c.text)}</span></div></div>\n<script>\n(function(){\n  var root=document.currentScript.previousElementSibling;\n  if(!root) return;\n  var track=root.querySelector('.tp-marquee__track');\n  var first=root.querySelector('.tp-marquee__text');\n  if(!track||!first) return;\n  var width=Math.ceil(first.getBoundingClientRect().width);\n  var pixelsPerSecond=220-${c.speed}*3;\n  var duration=Math.max(2.5,width/Math.max(40,pixelsPerSecond));\n  track.style.setProperty('--tp-marquee-span', width+'px');\n  track.style.animationDuration=duration+'s';\n})();\n<\/script>`;}
+
+function refreshMarquee(){const c={text:marqueeUi.text.value.trim()||'Текст бегущей строки',textColor:marqueeUi.textColor.value,bgColor:marqueeUi.bgColor.value,speed:Number(marqueeUi.speed.value)};marqueeUi.speedOutput.value=String(c.speed);marqueeUi.previewMarquee.style.background=c.bgColor;marqueeUi.previewTexts.forEach((i)=>{i.textContent=c.text;i.style.color=c.textColor;});
+const first=marqueeUi.previewTexts[0];
+const width=Math.ceil(first.getBoundingClientRect().width);
+const duration=getMarqueeDurationSeconds(width,c.speed);
+marqueeUi.previewTrack.style.setProperty('--tp-marquee-span', `${width}px`);
+marqueeUi.previewTrack.style.animationDuration=`${duration}s`;
+marqueeUi.codeOutput.textContent=getMarqueeSnippet(c)}
 
 function basePrefix(){const ref=formUi.referer1.value.trim();const refLine=ref?`
     referer1: '${esc(ref)}',`:'';return `${refLine}
