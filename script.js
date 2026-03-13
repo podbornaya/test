@@ -75,7 +75,7 @@ function renderPresetSettings() {
   formUi.settingsRoot.querySelectorAll('[data-field]').forEach((node)=>{
     node.addEventListener('input', ()=>{
       presetState[key][node.dataset.field] = node.type === 'checkbox' ? node.checked : node.value;
-      refreshForm();
+      refreshFormView();
     });
   });
 }
@@ -130,7 +130,9 @@ function updatePreviewFromState() {
   }
 }
 
-function refreshForm() { renderPresetSettings(); updatePreviewFromState(); formUi.codeOutput.textContent = getFormCode(); }
+function refreshFormView() { updatePreviewFromState(); formUi.codeOutput.textContent = getFormCode(); }
+
+function refreshFormWithRender() { renderPresetSettings(); refreshFormView(); }
 
 function copyToClipboard(button, node) {
   const txt = button.textContent;
@@ -138,8 +140,8 @@ function copyToClipboard(button, node) {
   setTimeout(()=> button.textContent=txt, 1200);
 }
 
-formUi.variant.addEventListener('input', refreshForm);
-[formUi.bgColor, formUi.analytics, formUi.referer1].forEach((n)=> n.addEventListener('input', refreshForm));
+formUi.variant.addEventListener('input', refreshFormWithRender);
+[formUi.bgColor, formUi.analytics, formUi.referer1].forEach((n)=> n.addEventListener('input', refreshFormView));
 formUi.previewTab1Name.addEventListener('click', () => { formUi.previewTab1Name.classList.add('active'); formUi.previewTab2Name.classList.remove('active'); updatePreviewFromState(); });
 formUi.previewTab2Name.addEventListener('click', () => { formUi.previewTab2Name.classList.add('active'); formUi.previewTab1Name.classList.remove('active'); updatePreviewFromState(); });
 
@@ -149,5 +151,5 @@ formUi.copyBtn.addEventListener('click', ()=> copyToClipboard(formUi.copyBtn, fo
 
 mountBrandPalettes();
 refreshMarquee();
-refreshForm();
+refreshFormWithRender();
 showPage('gallery-page');
