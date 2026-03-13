@@ -20,20 +20,23 @@
         <h2>Галерея блоков</h2>
         <div class="gallery-grid">
           <article class="gallery-card">
-            <div class="gallery-top"><span class="pill">Block #001</span><h3>Бегущая строка</h3></div>
-            <div class="gallery-mini gallery-mini-marquee">Бегущая строка • Бегущая строка • Бегущая строка •</div>
-            <p>Настройка текста, цвета, скорости анимации и шрифта.</p>
-            <button type="button" data-open-page="marquee-page">Открыть настройки</button>
+            <div class="gallery-preview-wrap"><img class="gallery-preview" src="./previews/block-001.jpg" alt="Превью блока бегущей строки" /></div>
+            <div class="gallery-content">
+              <span class="pill">Block #001</span>
+              <h3>Бегущая строка</h3>
+              <p>Настройка текста, цвета, скорости анимации и шрифта.</p>
+            </div>
+            <button class="arrow-btn" type="button" data-open-page="marquee-page" aria-label="Открыть блок бегущей строки">→</button>
           </article>
 
           <article class="gallery-card">
-            <div class="gallery-top"><span class="pill">Block #002</span><h3>Форма Tochka</h3></div>
-            <div class="gallery-mini gallery-mini-form">
-              <div class="mini-tabs"><span>Я не клиент</span><span>Я уже клиент</span></div>
-              <div class="mini-form-body">Создайте собственный сайт с витриной товаров и услуг</div>
+            <div class="gallery-preview-wrap"><img class="gallery-preview" src="./previews/block-002.jpg" alt="Превью блока формы" /></div>
+            <div class="gallery-content">
+              <span class="pill">Block #002</span>
+              <h3>Форма Tochka</h3>
+              <p>Генератор UniversalForm + вариации с индивидуальными настройками.</p>
             </div>
-            <p>Генератор UniversalForm + вариации с индивидуальными настройками.</p>
-            <button type="button" data-open-page="form-page">Открыть настройки</button>
+            <button class="arrow-btn" type="button" data-open-page="form-page" aria-label="Открыть блок формы">→</button>
           </article>
         </div>
       </section>
@@ -49,8 +52,7 @@
               <label>Цвет текста <div class="color-row"><div class="brand-palette" data-target="marquee-text-color"></div><input id="marquee-text-color" type="color" value="#ffffff" /></div></label>
               <label>Цвет фона <div class="color-row"><div class="brand-palette" data-target="marquee-bg-color"></div><input id="marquee-bg-color" type="color" value="#111111" /></div></label>
               <label>Скорость анимации (сек)<input id="marquee-speed" type="range" min="8" max="60" step="1" value="22" /><output id="marquee-speed-output">22</output></label>
-              <label class="checkbox-label"><input id="marquee-inherit-font" type="checkbox" checked /> Использовать шрифт темы Tilda (inherit)</label>
-              <button id="copy-marquee-btn" type="button">Скопировать код блока</button>
+                            <button id="copy-marquee-btn" type="button">Скопировать код блока</button>
             </form>
 
             <div class="preview-panel">
@@ -88,8 +90,7 @@
                 <div class="color-row"><div class="brand-palette" data-target="form-bg-color"></div><input id="form-bg-color" type="color" value="#E7DBFD" /></div>
               </label>
 
-              <label class="checkbox-label"><input id="form-analytics" type="checkbox" checked /> Добавить событие analytics (dataLayer)</label>
-              <label>referer1 (для партнёров, необязательно) <input id="form-referer1" type="text" placeholder="строка для рефера партнёра" /></label>
+                            <label>referer1 (для партнёров, необязательно) <input id="form-referer1" type="text" placeholder="строка для рефера партнёра" /></label>
 
               <div id="preset-settings" class="preset-settings"></div>
 
