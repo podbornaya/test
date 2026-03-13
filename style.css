@@ -69,3 +69,11 @@ button{border:0;border-radius:10px;padding:11px 14px;background:var(--primary);c
 pre{margin:0;background:#0b1020;color:#dae4ff;padding:14px;max-height:480px;overflow:auto;font-size:13px;line-height:1.45;white-space:pre}
 
 @media (max-width:920px){.gallery-grid,.editor-grid{grid-template-columns:1fr}.form-preview{grid-template-columns:1fr}.form-right{padding:0 16px 18px}.form-left{padding:20px 16px 10px}.form-body p{font-size:18px}.preview-button{min-width:0;width:100%}}
+
+
+.preset-settings { display: grid; gap: 14px; }
+.settings-group { border: 1px solid var(--border); border-radius: 10px; padding: 10px; display: grid; gap: 8px; background: #fafbff; }
+.settings-group h4 { margin: 0; font-size: 14px; }
+.settings-note { font-size: 12px; color: #475569; }
+textarea[data-field="inputsJson"],
+textarea[data-field="resultHrefJson"] { min-height: 120px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
