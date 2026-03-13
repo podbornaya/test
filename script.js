@@ -6,7 +6,7 @@ function showPage(pageId) { pages.forEach((p) => p.classList.toggle('active', p.
 
 const marqueeUi = {
   text: document.getElementById('marquee-text'), textColor: document.getElementById('marquee-text-color'), bgColor: document.getElementById('marquee-bg-color'),
-  speed: document.getElementById('marquee-speed'), speedOutput: document.getElementById('marquee-speed-output'),
+  speed: document.getElementById('marquee-speed'), speedOutput: document.getElementById('marquee-speed-output'), fontFamily: document.getElementById('marquee-font-family'),
   previewMarquee: document.getElementById('preview-marquee'), previewTrack: document.querySelector('#preview-marquee .marquee-track'),
   codeOutput: document.getElementById('marquee-code-output'), copyBtn: document.getElementById('copy-marquee-btn'),
 };
@@ -125,6 +125,7 @@ function getMarqueeSnippet(c){return `<!-- Tilda custom block: marquee -->
 (function(){
   var root=document.currentScript.previousElementSibling;
   if(!root) return;
+  root.style.fontFamily=${JSON.stringify(c.fontFamily)};
   var track=root.querySelector('.tp-marquee__track');
   if(!track) return;
   var text=${JSON.stringify(c.text)};
@@ -155,7 +156,7 @@ function getMarqueeSnippet(c){return `<!-- Tilda custom block: marquee -->
 })();
 <\/script>`;}
 
-function refreshMarquee(){const c={text:marqueeUi.text.value.trim()||'Текст бегущей строки',textColor:marqueeUi.textColor.value,bgColor:marqueeUi.bgColor.value,speed:Number(marqueeUi.speed.value)};marqueeUi.speedOutput.value=String(c.speed);marqueeUi.previewMarquee.style.background=c.bgColor;
+function refreshMarquee(){const c={text:marqueeUi.text.value.trim()||'Текст бегущей строки',textColor:marqueeUi.textColor.value,bgColor:marqueeUi.bgColor.value,speed:Number(marqueeUi.speed.value),fontFamily:marqueeUi.fontFamily.value.trim()||'TTNorms, Arial, sans-serif'};marqueeUi.speedOutput.value=String(c.speed);marqueeUi.previewMarquee.style.background=c.bgColor;marqueeUi.previewMarquee.style.fontFamily=c.fontFamily;
 const width=fillMarqueeTrack(marqueeUi.previewTrack, c.text, 'marquee-text', marqueeUi.previewMarquee.offsetWidth * 2);
 marqueeUi.previewTrack.querySelectorAll('.marquee-text').forEach((i)=>{i.style.color=c.textColor;});
 const duration=getMarqueeDurationSeconds(width,c.speed);
@@ -267,7 +268,7 @@ formUi.variant.addEventListener('input', refreshFormWithRender);
 formUi.previewTab1Name.addEventListener('click', () => { formUi.previewTab1Name.classList.add('active'); formUi.previewTab2Name.classList.remove('active'); updatePreviewFromState(); });
 formUi.previewTab2Name.addEventListener('click', () => { formUi.previewTab2Name.classList.add('active'); formUi.previewTab1Name.classList.remove('active'); updatePreviewFromState(); });
 
-[marqueeUi.text, marqueeUi.textColor, marqueeUi.bgColor, marqueeUi.speed].forEach((n)=> n.addEventListener('input', refreshMarquee));
+[marqueeUi.text, marqueeUi.textColor, marqueeUi.bgColor, marqueeUi.speed, marqueeUi.fontFamily].forEach((n)=> n.addEventListener('input', refreshMarquee));
 window.addEventListener('resize', refreshMarquee);
 marqueeUi.copyBtn.addEventListener('click', ()=> copyToClipboard(marqueeUi.copyBtn, marqueeUi.codeOutput));
 formUi.copyBtn.addEventListener('click', ()=> copyToClipboard(formUi.copyBtn, formUi.codeOutput));
